@@ -10,10 +10,6 @@ AC_PROG_CXX
 AX_CXX_COMPILE_STDCXX_11
 AC_PROG_LN_S
 AC_PROG_INSTALL
-AC_CHECK_HEADER([cstdio])
-AC_CHECK_HEADER([fstream])
-AC_CHECK_HEADER([cerrno])
-AC_CHECK_HEADER([iosfwd])
-AC_CHECK_HEADER([ext/stdio_filebuf.h])
-AC_CHECK_HEADER([ext/stdio_sync_filebuf.h])
-AC_OUTPUT([Makefile])
+PKG_PROG_PKG_CONFIG
+AC_CHECK_HEADERS([cstdio fstream cerrno iosfwd ext/stdio_filebuf.h ext/stdio_sync_filebuf.h], [], [AC_MSG_FAILURE([required standard headers: cstdio fstream cerrno iosfwd ext/stdio_filebuf.h ext/stdio_sync_filebuf.h])])
+AC_OUTPUT([Makefile libcxxfileno.pc])

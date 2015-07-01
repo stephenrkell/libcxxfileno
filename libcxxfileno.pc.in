@@ -1,0 +1,14 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+pkgincludedir=${includedir}/@PACKAGE@
+pkglibdir=@pkglibdir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+
+Name: libcxxfileno
+Description: Stephen Kell's distribution of Richard Kreckel's fileno() function for popular implementations of the C++ standard library
+Version: 0.1
+Cflags: -I${pkgincludedir}
+Libs: -L${libdir} -lcxxfileno

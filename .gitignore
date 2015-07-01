@@ -36,6 +36,8 @@ Makefile.in
 *.o
 *.obj
 
+*.pc
+
 # Dependencies
 .*.d
 
@@ -71,3 +73,5 @@ Makefile.in
 # WTF Dropbox
 
 .fuse_hidden*
+.nfs*
+.dropbox*
