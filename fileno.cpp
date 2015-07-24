@@ -1,7 +1,24 @@
 #include "fileno.hpp"
+#include <ciso646> // just for __LIBCPP_VERSION
+
 #include <cstdio>  // declaration of ::fileno
-#include <fstream>  // for basic_filebuf template
 #include <cerrno>
+
+// for basic_filebuf template
+#ifdef _LIBCPP_VERSION
+#ifdef private
+# error "why on earth is private #defined to something already?!"
+#endif
+// this is a very bad idea, never do this
+# define private public
+// no, seriously.
+# include <fstream>
+# undef private
+# undef class
+#else
+# include <fstream>
+#endif
+
 
 #if defined(__GLIBCXX__) || (defined(__GLIBCPP__) && __GLIBCPP__>=20020514)  // GCC >= 3.1.0
 # include <ext/stdio_filebuf.h>
@@ -9,6 +26,11 @@
 #if defined(__GLIBCXX__) // GCC >= 3.4.0
 # include <ext/stdio_sync_filebuf.h>
 #endif
+
+int cfileno(FILE *f) {
+	 return ::fileno(f);
+}
+
 
 //! Similar to fileno(3), but taking a C++ stream as argument instead of a
 //! FILE*.  Note that there is no way for the library to track what you do with
@@ -124,12 +146,24 @@ fileno_hack(const std::basic_ios<charT, traits>& stream)
 #  endif
 # endif
 #else
+#ifdef _LIBCPP_VERSION // llvm libc++
+	typedef std::basic_filebuf<charT, traits> filebuf_t;
+    filebuf_t* fbuf = dynamic_cast<filebuf_t*>(stream.rdbuf());
+	if (fbuf != NULL && fbuf->__file_ != NULL) {
+		 return cfileno(fbuf->__file_);
+	} else {
+		 errno = EBADF;
+		 return -1;
+	}
+#else
 #  error "Does anybody know how to fetch the bloody file descriptor?"
     return stream.rdbuf()->fd();  // Maybe a good start?
+#endif
 #endif
     errno = EBADF;
     return -1;
 }
+
 
 //! 8-Bit character instantiation: fileno(ios).
 template <>
