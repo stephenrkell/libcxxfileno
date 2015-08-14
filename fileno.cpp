@@ -148,11 +148,18 @@ fileno_hack(const std::basic_ios<charT, traits>& stream)
 #else
 #ifdef _LIBCPP_VERSION // llvm libc++
 	typedef std::basic_filebuf<charT, traits> filebuf_t;
-    filebuf_t* fbuf = dynamic_cast<filebuf_t*>(stream.rdbuf());
-	if (fbuf != NULL && fbuf->__file_ != NULL) {
-		 return cfileno(fbuf->__file_);
-	} else {
-		 errno = EBADF;
+    filebuf_t* fbuf = stream.rdbuf();
+    template <typename c, typename t>
+	    struct my_filebuf : public filebuf_t<c, t> {
+	    FILE *c_file() {
+		    return this->__file_;
+	    }
+    };
+    my_filebuf<charT, traits> *my_fbuf = static_cast<my_filebuf<charT, traits>*>(fbuf);
+    if (my_fbuf != NULL && my_fbuf->c_file() != NULL) {
+	    return cfileno(my_fbuf->c_file());
+    } else {
+	    errno = EBADF;
 		 return -1;
 	}
 #else
