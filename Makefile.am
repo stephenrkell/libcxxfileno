@@ -7,9 +7,9 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libc++fileno.pc
 
 lib/libc++fileno.so: $(lib_LTLIBRARIES)
-	mkdir -p lib && cd lib && ln -sf ../src/.libs/libc++fileno.so .
+	mkdir -p lib && cd lib && ln -sf ../.libs/libc++fileno.so .
 
 lib/libc++fileno.so.0: $(lib_LTLIBRARIES)
-	mkdir -p lib && cd lib && ln -sf ../src/.libs/libc++fileno.so.0 .
+	mkdir -p lib && cd lib && ln -sf ../.libs/libc++fileno.so.0 .
 
 all: lib/libc++fileno.so lib/libc++fileno.so.0
