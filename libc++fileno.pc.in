@@ -7,8 +7,8 @@ pkglibdir=@pkglibdir@
 datarootdir=@datarootdir@
 datadir=@datadir@
 
-Name: libcxxfileno
+Name: libc++fileno
 Description: Stephen Kell's distribution of Richard Kreckel's fileno() function for popular implementations of the C++ standard library
 Version: 0.1
 Cflags: -I${pkgincludedir}
-Libs: -L${libdir} -lcxxfileno
+Libs: -L${libdir} -lc++fileno
