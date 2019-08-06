@@ -12,4 +12,7 @@ lib/libc++fileno.so: $(lib_LTLIBRARIES)
 lib/libc++fileno.so.0: $(lib_LTLIBRARIES)
 	mkdir -p lib && cd lib && ln -sf ../.libs/libc++fileno.so.0 .
 
-all: lib/libc++fileno.so lib/libc++fileno.so.0
+lib/libc++fileno.a: $(lib_LTLIBRARIES)
+	mkdir -p lib && cd lib && ln -sf ../.libs/libc++fileno.a .
+
+all: lib/libc++fileno.so lib/libc++fileno.so.0 lib/libc++fileno.a
